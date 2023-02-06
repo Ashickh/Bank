@@ -39,7 +39,7 @@ Modernizr.load({
           <section>
             <ul class="sf-menu large-12">
               <li class="active"><a href="/">Home</a></li>
-              <li class="active"><a href="{%url 'person_list'%}">Persons</a></li>
+              <li><a href="{%url 'person_add' %}">Application</a></li>
               <li class="has-dropdown"><a href="services.html">Branches</a>
                 <ul class="dropdown">
                   <li class="has-dropdown"><a href="#">Thrissur</a></li>
@@ -57,66 +57,35 @@ Modernizr.load({
   </div>
 </div>
 </br>
-<center><h2><b>Application Form</b></h2></center>
 
-<div class="container mt-3" style="width: 80%; font-size: 14px">
-    <form method="post" class="card p-3 mt-5" id="personForm" data-branches-url="{% url 'ajax_load_branches' %}">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-6">
-                {{ form.name|as_crispy_field }}
-            </div>
-             <div class="col-6">
-                {{ form.dob|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.age|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.mailid|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.phone_number|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.ac_type|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.district|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.branch|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.gender|as_crispy_field }}
-            </div>
-            <div class="col-6">
-                {{ form.materials|as_crispy_field }}
-            </div>
-            <div>
-                {{ form.address|as_crispy_field }}
-            </div>
-            {% if form.is_save %}
-            <div class="col-6" align="right">
-                <button type="submit" class="btn btn-primary">Message</button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-danger" onclick="#">Loging</button>
-            </div>
-            {% else %}
-            <div class="col-6" align="right">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-danger" onclick="#">Logout</button>
-            </div>
-            {% endif %}
-        </div>
+<h1>Person List</h1>
 
-<!--        {{ form|crispy }}-->
+<div class="row-8">
+    <table class="table">
+      <tr>
+     
+        <th>PERSON NAME</th>
+        <th>MOB NUMBER</th>
+        <th>EMAIL</th>
+      </tr>
+      {%for emp in persons%}
+      <tr>
+        <td>{{emp.name}}</td>
+        <td>{{emp.phone_number}}</td>
+        <td>{{emp.mailid}}</td>
+        <td>
+          <a href=''>view</a>
+          <a href="">edit</a>
+          <a href="">delete</a>
+        </td>
+      </tr>
+      {%endfor%}
+    </table>
+  </div>
+  <div class="row-2"></div>
 
-    </form>
-</div>
+
+
     <footer class="footer">
       <div class="row">
         <div class="columns large-12 footer-inner">
@@ -182,59 +151,7 @@ Modernizr.load({
 <script src="{% static 'js/hoverIntent.js' %}"></script>
 <script src="{% static 'js/superfish.js' %}"></script>
 <script src="{% static 'js/slider/jquery.flexslider.js' %}"></script>
-<script>
-Modernizr.load({
-    test: Modernizr.placeholder,
-    nope: 'js/placeholder.min.js'
-});
 
-function goToNewPage() {
-    if (document.getElementById('target').value) {
-        window.location.href = document.getElementById('target').value;
-    }
-}
-</script>
-<script>
-$(document).ready(function () {
-    $('ul.sf-menu').superfish({
-        animation: {
-            height: 'show'
-        },
-        delay: 400
-    });
-    $("img.scrollToTop").click(function () {
-        $("html, body").animate({
-            scrollTop: 0
-        }, "slow");
-    });
-    $('.flexslider').flexslider();
-    $('.flexcar').flexslider();
-});
-</script>
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-
-    $("#id_district").change(function () {
-        const url = $("#personForm").attr("data-branches-url");
-        const districtId = $(this).val();
-
-        $.ajax({
-            url: url,
-            data: {
-                'district_id': districtId
-            },
-            success: function (data) {
-                $("#id_branch").html(data);
-
-
-
-            }
-        });
-
-    });
-</script>
 
 </body>
 </html>
